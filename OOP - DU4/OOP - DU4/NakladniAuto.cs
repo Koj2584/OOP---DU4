@@ -12,14 +12,6 @@ namespace OOP___DU4
         protected string spz;
         protected short nosnost;
         protected short hmotnostNakladu = 0;
-        protected short HmotnostNakladu
-        {
-            get
-            {
-                return hmotnostNakladu;
-            }
-
-        }
 
         public NakladniAuto(string spz, short nosnost)
         {
@@ -27,28 +19,31 @@ namespace OOP___DU4
             this.nosnost = nosnost;
         }
 
-        public void NalozNaklad(short vaha)
+        protected virtual void NalozNaklad(short vaha)
         {
-            if (vaha + hmotnostNakladu > nosnost)
+            if (vaha > nosnost - hmotnostNakladu)
             {
-                hmotnostNakladu = nosnost;
-                MessageBox.Show("Nenaložilo se " + (vaha - nosnost) + " tun.");
+                MessageBox.Show("Nenaložilo se " + (vaha - (nosnost - hmotnostNakladu)) + " tun.");
+                hmotnostNakladu += (short)(nosnost - hmotnostNakladu);
             }
             else
                 hmotnostNakladu += vaha;
         }
 
-        public void VylozNaklad(short vaha)
+        protected virtual void VylozNaklad(short vaha)
         {
             if (vaha > hmotnostNakladu)
             {
-                hmotnostNakladu = 0;
                 MessageBox.Show("Chybějící náklad  " + (vaha - hmotnostNakladu) + " tun.");
+                hmotnostNakladu = 0;
             }
             else
                 hmotnostNakladu -= vaha;
         }
 
-
+        protected new virtual string ToString()
+        {
+            return "Nákladní auto " + spz + " má nosnost " + nosnost + "t a má naloženo " + hmotnostNakladu + "t";
+        }
     }
 }
